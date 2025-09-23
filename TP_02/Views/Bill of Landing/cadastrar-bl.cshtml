@@ -1,0 +1,32 @@
+﻿@model CBTSWE2_TP02.Models.BL
+@{
+    ViewData["Title"] = "Cadastrar BL";
+}
+@* Feito por Eduardo Miranda CB3026604 & Cauã Barros CB3025179 *@
+
+<div class="container mt-4">
+    <h1>Cadastrar Bill of Landing</h1>
+
+    <form asp-action="Create" asp-controller="BL" method="post">
+        <div class="mb-3">
+            <label asp-for="Numero" class="form-label"></label>
+            <input asp-for="Numero" class="form-control" />
+            <span asp-validation-for="Numero" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Consignee" class="form-label"></label>
+            <input asp-for="Consignee" class="form-control" />
+            <span asp-validation-for="Consignee" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Navio" class="form-label"></label>
+            <input asp-for="Navio" class="form-control" />
+            <span asp-validation-for="Navio" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" asp-controller="BL" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

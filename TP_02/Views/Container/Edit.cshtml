@@ -1,0 +1,60 @@
+﻿@model CBTSWE2_TP02.Models.Container
+
+@{
+    ViewData["Title"] = "Cadastrar Container";
+}
+@* Feito por Eduardo Miranda CB3026604 & Cauã Barros CB3025179 *@
+
+<div class="container mt-4">
+    <h1>Editar Container</h1>
+
+    <form asp-controller="Container" asp-action="Edit" method="post">
+
+        <div class="mb-3">
+            <label asp-for="Numero" class="form-label"></label>
+            <input asp-for="Numero" class="form-control" />
+            <span asp-validation-for="Numero" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Tipo" class="form-label"></label>
+            <select asp-for="Tipo" class="form-select">
+                <option value="">Selecione</option>
+                <option value="Dry">Dry</option>
+                <option value="Reefer">Reefer</option>
+            </select>
+            <span asp-validation-for="Tipo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Tamanho" class="form-label"></label>
+            <select asp-for="Tamanho" class="form-select">
+                <option value="">Selecione</option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+            </select>
+            <span asp-validation-for="Tamanho" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="BLId" class="form-label">Bill of Landing</label>
+
+            @if (ViewBag.BLs == null || !((IEnumerable<SelectListItem>)ViewBag.BLs).Any())
+            {
+                <div class="alert alert-warning">
+                    Nenhum Bill of Landing disponível. Por favor, cadastre um Bill of Landing antes de adicionar um container.
+                </div>
+            }
+            else
+            {
+                <select asp-for="BLId" class="form-select" asp-items="ViewBag.BLs">
+                    <option value="">Selecione um BL</option>
+                </select>
+                <span asp-validation-for="BLId" class="text-danger"></span>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" asp-controller="Container" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>

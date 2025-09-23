@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Relatório de BLs e Containers";
+    var listaBLs = ViewBag.ListaDeBLs as CBTSWE2_TP02.Models.BL[];
+    var listaContainers = ViewBag.ListaDeContainers as CBTSWE2_TP02.Models.Container[];
+}
+@* Feito por Eduardo Miranda CB3026604 & Cauã Barros CB3025179 *@
+
+<style>
+    .accordion-item {
+        margin-bottom: 15px;
+    }
+
+</style>
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📊 Relatório de BLs e Containers</h2>
+
+    <div class="accordion" id="accordionRelatorio">
+        @if (listaBLs != null && listaBLs.Any())
+        {
+            int index = 0;
+            foreach (var bl in listaBLs)
+            {
+                <div class="accordion-item mb-3">
+                    <h2 class="accordion-header" id="heading-@index">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@index" aria-expanded="false" aria-controls="collapse-@index">
+                            <div class="container-fluid">
+                                <div class="row w-100">
+                                    <div class="col-md-4"><strong>BL:</strong> @bl.Numero</div>
+                                    <div class="col-md-4"><strong>Consignee:</strong> @bl.Consignee</div>
+                                    <div class="col-md-4"><strong>Navio:</strong> @bl.Navio</div>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse-@index" class="accordion-collapse collapse" aria-labelledby="heading-@index" data-bs-parent="#accordionRelatorio">
+                        <div class="accordion-body">
+                            <h5>Containers associados:</h5>
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Tipo</th>
+                                        <th>Tamanho</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var c in listaContainers.Where(c => c.BLId == bl.Id))
+                                    {
+                                        <tr>
+                                            <td>@c.Numero</td>
+                                            <td>@c.Tipo</td>
+                                            <td>@c.Tamanho</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                index++;
+            }
+        }
+        else
+        {
+            <p class="alert alert-warning">Nenhum BL encontrado no sistema.</p>
+        }
+    </div>
+</div>
