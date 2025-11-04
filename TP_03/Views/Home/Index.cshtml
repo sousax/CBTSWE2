@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Produto>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid py-5">
+    @if (!Model.Any())
+    {
+        <div class="min-vh-75 d-flex align-items-center justify-content-center">
+            <div class="card shadow-sm w-100" style="max-width:720px;">
+                <div class="card-body text-center py-5">
+                    <h1 class="display-6 fw-bold mb-3">Sem produtos cadastrados</h1>
+                    <p class="text-muted mb-4">Cadastre o primeiro produto para que ele apareça aqui.</p>
+                    <a asp-controller="Produto" asp-action="Cadastrar" class="btn btn-lg btn-primary">Cadastrar novo produto</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row mb-4 align-items-center">
+            <div class="col-12 col-md-6">
+                <h2 class="mb-0">Produtos</h2>
+                <small class="text-muted">Lista de produtos cadastrados</small>
+            </div>
+
+            <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-2 mt-3 mt-md-0">
+                <a asp-controller="Produto" asp-action="Cadastrar" class="btn btn-primary btn-sm">Cadastrar novo produto</a>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover table-borderless align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:80px">#</th>
+                            <th>Produto</th>
+                            <th class="text-end" style="width:230px">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtosTableBody">
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="badge bg-secondary">@p.Id</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="fw-semibold">@p.Nome</div>
+                                        <div class="text-muted small text-truncate" style="max-width:480px">@p.Descricao</div>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <a asp-controller="Produto" asp-action="Detalhes" asp-route-id="@p.Id" class="btn btn-outline-secondary btn-sm me-1">Visualizar</a>
+                                    <a asp-controller="Produto" asp-action="Editar" asp-route-id="@p.Id" class="btn btn-outline-primary btn-sm me-1">Editar</a>
+                                    <form asp-controller="Produto" asp-action="Excluir" asp-route-id="@p.Id" method="post" class="d-inline" onsubmit="return confirm('Confirma exclusão deste produto?');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted small">
+                Exibindo @Model.Count() produto(s)
+            </div>
+        </div>
+    }
+</div>
